@@ -15,7 +15,6 @@ public class DecemberFifth {
         System.out.println("--------- Puzzle Two ----------");
         solvePuzzleTwo();
         System.out.println("-------------------------------");
-
     }
 
     private static int[] initializeRowsArray() {
@@ -87,14 +86,11 @@ public class DecemberFifth {
             for(int columnsNumber : initializeColumnsArray()) {
                 int calculatedSeatId = rowNumber * 8 + columnsNumber;
                 if(!seatIds.contains(calculatedSeatId)) {
-                    missingSeatIds.add(calculatedSeatId);
+                    if(seatIds.contains(calculatedSeatId - 1) && seatIds.contains(calculatedSeatId + 1)) {
+                        System.out.println("My seat id: " + calculatedSeatId);
+                        break;
+                    }
                 }
-            }
-        }
-        for(int eachMissingSeatId : missingSeatIds) {
-            if(seatIds.contains(eachMissingSeatId - 1) && seatIds.contains(eachMissingSeatId + 1)) {
-                System.out.println("My seat id: " + eachMissingSeatId);
-                break;
             }
         }
     }

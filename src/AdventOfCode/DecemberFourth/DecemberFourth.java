@@ -5,7 +5,7 @@ import AdventOfCode.AdventOfCodeGlobals;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class FourthOfDecember {
+public class DecemberFourth {
 
     public static void main (String[] args) {
         System.out.println("--------- Puzzle One ----------");

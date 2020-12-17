@@ -3,7 +3,6 @@ package AdventOfCode.DecemberSixth;
 import AdventOfCode.AdventOfCodeGlobals;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,11 +17,40 @@ public class DecemberSixth {
     }
 
     private static void solvePuzzleTwo() {
+        ArrayList<ArrayList<String>> parsedInputsOfPuzzleTwo = parseInputsForDecemberSixthPuzzleTwo();
+
+        int numberOfPeopleInGroup;
+        int numberOfCharOccurrences;
+        int sumOfAllAnswers = 0;
+
+        StringBuilder allAnswersString;
+
+        for(ArrayList<String> eachGroupsAnswers : parsedInputsOfPuzzleTwo) {
+            numberOfPeopleInGroup = eachGroupsAnswers.size();
+            allAnswersString = new StringBuilder();
+
+            for (String eachPersonAnswer : eachGroupsAnswers) {
+                allAnswersString.append(eachPersonAnswer);
+            }
+
+            for (int i = 0; i < eachGroupsAnswers.get(0).length(); i++) { //We only need to loop the first Person of every group
+                numberOfCharOccurrences = 0;
+                for (int j = 0; j < allAnswersString.length(); j++) {
+                    if (eachGroupsAnswers.get(0).charAt(i) == allAnswersString.charAt(j)) {
+                        numberOfCharOccurrences++;
+                    }
+                }
+                if (numberOfCharOccurrences == numberOfPeopleInGroup) {
+                    sumOfAllAnswers++;
+                }
+            }
+        }
+        System.out.println("Number of answers everybody had: " + sumOfAllAnswers);
     }
 
     private static void solvePuzzleOne() {
         int sum = 0;
-        for (Set<Character> distinctCustomsDeclarationFormAnswers : parseInputsForDecemberSixth()) {
+        for (Set<Character> distinctCustomsDeclarationFormAnswers : parseInputsForDecemberSixthPuzzleOne()) {
             sum = sum + distinctCustomsDeclarationFormAnswers.size();
         }
         System.out.println("Sum of all distinct answers " + sum);
@@ -34,7 +62,7 @@ public class DecemberSixth {
         return inputsForSixthOfDecember;
     }
 
-    private static ArrayList<Set<Character>> parseInputsForDecemberSixth() {
+    private static ArrayList<Set<Character>> parseInputsForDecemberSixthPuzzleOne() {
         ArrayList<String> inputsForSixthOfDecember = inputsForDecemberSixth();
 
         ArrayList<String> customsDeclarationFormAnswers = new ArrayList<>();
@@ -59,6 +87,23 @@ public class DecemberSixth {
             customsDeclarationFormAnswerOfAllGroups.add(distinctCustomsDeclarationFormAnswers);
         }
         return customsDeclarationFormAnswerOfAllGroups;
+    }
+
+    private static ArrayList<ArrayList<String>> parseInputsForDecemberSixthPuzzleTwo() {
+        ArrayList<String> inputsForSixthOfDecember = inputsForDecemberSixth();
+
+        ArrayList<String> eachPersonOfGroupInput = new ArrayList<>();
+        ArrayList<ArrayList<String>> everyAnswerGroup = new ArrayList<>();
+
+        for(String eachInputLine : inputsForSixthOfDecember) {
+            if (!eachInputLine.isBlank()) {
+                eachPersonOfGroupInput.add(eachInputLine);
+            } else {
+                everyAnswerGroup.add(eachPersonOfGroupInput);
+                eachPersonOfGroupInput = new ArrayList<>();
+            }
+        }
+        return everyAnswerGroup;
     }
 
 }

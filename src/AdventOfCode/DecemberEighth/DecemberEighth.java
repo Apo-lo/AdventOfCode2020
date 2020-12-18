@@ -5,6 +5,8 @@ import AdventOfCode.AdventOfCodeGlobals;
 import java.util.*;
 
 public class DecemberEighth {
+    static int accumulator = 0;
+
     public static void main (String[] args) {
         System.out.println("--------- Puzzle One ----------");
         solvePuzzleOne();
@@ -18,7 +20,9 @@ public class DecemberEighth {
     }
 
     private static void solvePuzzleOne() {
-        System.out.println("Accumulator value without termination: " + calculateAccumulator(parseInputForPuzzleOne()));
+        if(!terminates(parseInputForPuzzleOne())) {
+            System.out.println("Accumulator value without termination: " + accumulator);
+        }
     }
 
     private static int changeProgram(HashMap<Integer, HashMap<String, Integer>> programInstructions) {
@@ -28,7 +32,7 @@ public class DecemberEighth {
                 theInstruction.put(noOperationInstruction(), theInstruction.get(jumpInstructions()));
                 theInstruction.remove(jumpInstructions());
                 if (terminates(programInstructions)) {
-                    return calculateAccumulator(programInstructions);
+                    return accumulator;
                 } else {
                     theInstruction.put(jumpInstructions(), theInstruction.get(noOperationInstruction()));
                     theInstruction.remove(noOperationInstruction());
@@ -37,7 +41,7 @@ public class DecemberEighth {
                 theInstruction.put(jumpInstructions(), theInstruction.get(noOperationInstruction()));
                 theInstruction.remove(noOperationInstruction());
                 if (terminates(programInstructions)) {
-                    return calculateAccumulator(programInstructions);
+                    return accumulator;
                 } else {
                     theInstruction.put(noOperationInstruction(), theInstruction.get(jumpInstructions()));
                     theInstruction.remove(jumpInstructions());
@@ -47,33 +51,8 @@ public class DecemberEighth {
         return 0;
     }
 
-    private static int calculateAccumulator(HashMap<Integer, HashMap<String, Integer>> programInstructions) {
-        int accumulator = 0;
-        int linePointer = 1;
-        Set<Integer> executedLines = new HashSet<>();
-
-        while(linePointer != programInstructions.size()) {
-            HashMap<String, Integer>nextInstruction = programInstructions.get(linePointer);
-            if(!executedLines.contains(linePointer)) {
-                if (nextInstruction.containsKey(accumulatorInstruction())) {
-                    accumulator += nextInstruction.get(accumulatorInstruction());
-                    executedLines.add(linePointer);
-                    linePointer++;
-                } else if (nextInstruction.containsKey(jumpInstructions())) {
-                    executedLines.add(linePointer);
-                    linePointer += nextInstruction.get(jumpInstructions());
-                } else if (nextInstruction.containsKey(noOperationInstruction())) {
-                    executedLines.add(linePointer);
-                    linePointer++;
-                }
-            } else {
-                return accumulator;
-            }
-        }
-        return accumulator;
-    }
-
     private static boolean terminates(HashMap<Integer, HashMap<String, Integer>> programInstructions) {
+        accumulator = 0;
         int linePointer = 1;
         Set<Integer> executedLines = new HashSet<>();
 
@@ -81,6 +60,7 @@ public class DecemberEighth {
             HashMap<String, Integer>nextInstruction = programInstructions.get(linePointer);
             if(!executedLines.contains(linePointer)) {
                 if (nextInstruction.containsKey(accumulatorInstruction())) {
+                    accumulator += nextInstruction.get(accumulatorInstruction());
                     executedLines.add(linePointer);
                     linePointer++;
                 } else if (nextInstruction.containsKey(jumpInstructions())) {

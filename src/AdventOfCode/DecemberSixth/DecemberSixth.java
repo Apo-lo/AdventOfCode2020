@@ -13,7 +13,6 @@ public class DecemberSixth {
         System.out.println("--------- Puzzle Two ----------");
         solvePuzzleTwo();
         System.out.println("-------------------------------");
-
     }
 
     private static void solvePuzzleTwo() {

@@ -79,7 +79,6 @@ public class DecemberFifth {
 
     private static void solvePuzzleTwo() {
 
-        ArrayList<Integer> missingSeatIds = new ArrayList<>();
         ArrayList<Integer> seatIds = calculateAllSeatIds();
 
         for(int rowNumber : initializeRowsArray()) {
